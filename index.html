@@ -77,9 +77,9 @@
 <body>
 <main class="page">
   <div class="brand" id="brand">DANI DE BEAUTÉ</div>
-  <div class="eyebrow" id="eyebrow">A LITTLE MOMENT OF LOVE</div>
-  <h1 id="headline">Một vòng quay.<br>Một chút <em>yêu thương.</em></h1>
-  <p class="intro" id="intro">Món quà nhỏ từ Dani De Beauté,<br>dành riêng cho bạn.</p>
+  <div class="eyebrow" id="eyebrow">Happy Vietnamese Women's Day</div>
+  <h1 id="headline">Tháng của nàng<br> Tặng ngàn <em>yêu thương.</em></h1>
+  <p class="intro" id="intro">Dani chúc nàng luôn xinh đẹp, rạng rỡ theo cách của riêng mình</p>
   <p class="hint" id="hint">Chạm để quay và nhận món quà của bạn.</p>
 
   <div class="wheel-wrap">
@@ -98,11 +98,11 @@
     <label for="brandInput">Tên thương hiệu</label>
     <input id="brandInput" value="DANI DE BEAUTÉ">
     <label for="eyebrowInput">Dòng chữ nhỏ phía trên</label>
-    <input id="eyebrowInput" value="A LITTLE MOMENT OF LOVE">
+    <input id="eyebrowInput" value="Happy Vietnamese Women's Day">
     <label for="headlineInput">Tiêu đề (dùng | để xuống dòng, *...* để in nghiêng màu hồng)</label>
-    <input id="headlineInput" value="Một vòng quay.|Một chút *yêu thương.*">
+    <input id="headlineInput" value="Tháng của nàng| Tặng ngàn *yêu thương.*">
     <label for="introInput">Mô tả</label>
-    <textarea id="introInput">Món quà nhỏ từ Dani De Beauté,\ndành riêng cho bạn.</textarea>
+    <textarea id="introInput">Dani chúc nàng luôn xinh đẹp, rạng rỡ theo cách của riêng mình</textarea>
     <label for="hintInput">Hướng dẫn</label>
     <input id="hintInput" value="Chạm để quay và nhận món quà của bạn.">
     <label for="prizesInput">Danh sách quà — mỗi dòng một món, định dạng Tên quà: Số lượng</label>
@@ -260,6 +260,20 @@ function applyEdits(){
   if(parsed.length<2){alert("Vui lòng nhập ít nhất 2 phần quà, mỗi dòng theo dạng Tên quà: Số lượng.");return}
   prizes=parsed.map(p=>({...p,remaining:p.qty}));angle=0;drawWheel();updateStock();
   $("result").textContent="";
+  saveEdits();
+}
+const EDIT_IDS=["brandInput","eyebrowInput","headlineInput","introInput","hintInput","prizesInput"];
+const EDIT_KEY="dani-wheel-edits-v1";
+function saveEdits(){
+  try{localStorage.setItem(EDIT_KEY,JSON.stringify(Object.fromEntries(EDIT_IDS.map(id=>[id,$(id).value]))))}catch(e){}
+}
+function loadEdits(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(EDIT_KEY)||"null");
+    if(!saved)return;
+    EDIT_IDS.forEach(id=>{if(typeof saved[id]==="string")$(id).value=saved[id]});
+    applyEdits();
+  }catch(e){}
 }
 function escapeHTML(s){return s.replace(/[&<>"']/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[ch]))}
 $("spin").addEventListener("click",spin);
@@ -277,7 +291,7 @@ $("exportHtml").addEventListener("click",()=>{
   const url=URL.createObjectURL(blob);const a=document.createElement("a");
   a.href=url;a.download="dani-de-beaute-vong-quay.html";a.click();URL.revokeObjectURL(url);
 });
-drawWheel();updateStock();
+drawWheel();updateStock();loadEdits();
 </script>
 </body>
 </html>
