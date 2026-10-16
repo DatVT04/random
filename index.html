@@ -107,11 +107,11 @@
     <input id="hintInput" value="Chạm để quay và nhận món quà của bạn.">
     <label for="prizesInput">Danh sách quà — mỗi dòng một món, định dạng Tên quà: Số lượng</label>
     <textarea id="prizesInput">Nến thơm: 10
+Voucher 200K: 10
 Ly/cốc: 10
 Lược gỡ rối tóc: 10
-Giỏ đan hồng: 10
 Voucher 200K: 10
-Quà bí mật: 10</textarea>
+1 buổi làm sạch trị giá 800k: 10</textarea>
     <div class="edit-actions">
       <button class="small-btn primary" id="applyEdit">Áp dụng thay đổi</button>
       <button class="small-btn" id="resetStock">Đặt lại số lượng</button>
@@ -128,11 +128,11 @@ Quà bí mật: 10</textarea>
 */
 const DEFAULT_PRIZES = [
   { name: "Nến thơm", qty: 10 },
+  { name: "Voucher 200K", qty: 10 },
   { name: "Ly/cốc", qty: 10 },
   { name: "Lược gỡ rối tóc", qty: 10 },
-  { name: "Giỏ đan hồng", qty: 10 },
   { name: "Voucher 200K", qty: 10 },
-  { name: "Quà bí mật", qty: 10 }
+  { name: "1 buổi làm sạch trị giá 800k", qty: 10 }
 ];
 const COLORS = ["#d99ab9", "#b51d5b", "#e8d9e9", "#c77a9e", "#dceff3", "#f0d8e4"];
 let prizes = DEFAULT_PRIZES.map(p => ({...p, remaining:p.qty}));
@@ -263,7 +263,7 @@ function applyEdits(){
   saveEdits();
 }
 const EDIT_IDS=["brandInput","eyebrowInput","headlineInput","introInput","hintInput","prizesInput"];
-const EDIT_KEY="dani-wheel-edits-v1";
+const EDIT_KEY="dani-wheel-edits-v2";
 function saveEdits(){
   try{localStorage.setItem(EDIT_KEY,JSON.stringify(Object.fromEntries(EDIT_IDS.map(id=>[id,$(id).value]))))}catch(e){}
 }
